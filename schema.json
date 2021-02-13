@@ -1,0 +1,33 @@
+{
+  "stocks": {
+    "[ticker]": {
+      "details": {
+        "description": string,
+        "environmental_summary": string
+      },
+      "time_data": {
+        "[timestamp]": {
+          "price": float,
+          "environmental_score": float,
+          "raw_sentiment": float
+        }
+      }
+    }
+  },
+  "crypto": {
+    "[ticker]": {
+      "details": {
+        "description": string,
+        "proof_type": string,
+        "energy_used": float,
+        "volume": float
+      },
+      "time_data": {
+        "[timestamp]": {
+          "price": float,
+          "environmental_score": float,
+        }
+      }
+    }
+  }
+}
