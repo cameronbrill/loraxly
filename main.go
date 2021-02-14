@@ -1,8 +1,10 @@
 package main
 
 import (
+	"encoding/csv"
 	"encoding/json"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -27,10 +29,54 @@ type StockRes struct {
 var (
 	STOCK_ENDPOINT="https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&outputsize=full&symbol=%s&interval=5min&apikey=%s"
 	STOCK_API_KEY=os.Getenv("ALPHA_KEY")
+	STOCK_LIST_FILE="stocks.csv"
 )
 
 func main() {
-	log.Infof("got stock %+v", getTickerData("GME"))
+	tickers := make(chan string, 52)
+	stocks := make(chan *StockRes, 52)
+	go getStockTickers(tickers)
+	go func(tickers chan string, stocks chan *StockRes) {
+		for {
+			ticker, ok := <-tickers
+			log.Infof("TICKER, OK: %s, %v", ticker, ok)
+			if !ok {
+				return
+			}
+			go func(tickers chan string, stocks chan *StockRes) {
+				stocks <- getTickerData(fmt.Sprintf("%s", ticker))
+				log.Infof("got stock %s", ticker)
+				return
+			}(tickers, stocks)
+		}
+	}(tickers, stocks)
+	select {}
+}
+
+func getStockTickers(list chan string) {
+	// Open the file
+	stockListPath, err := os.Open(STOCK_LIST_FILE)
+	if err != nil {
+		log.Fatalln("Couldn't open the csv file", err)
+	}
+
+	// Parse the file
+	r := csv.NewReader(stockListPath)
+
+	// Iterate through the records
+	for {
+		// Read each record from csv
+		record, err := r.Read()
+		if err == io.EOF {
+			close(list)
+			break
+		}
+		if err != nil {
+			log.Errorf("failed to get ticker from stocks.csv: %s", err)
+		}
+		ticker := record[0]
+		list <- ticker
+	}
 }
 
 func getTickerData(ticker string) *StockRes {
