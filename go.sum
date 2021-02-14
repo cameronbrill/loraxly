@@ -1,5 +1,7 @@
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
+github.com/sashabaranov/go-gpt3 v0.0.0-20201216121239-64c0048394ea h1:F3K4W0h87spvsPmRKuRKMXedmrq80VpmeakXqGMHFWg=
+github.com/sashabaranov/go-gpt3 v0.0.0-20201216121239-64c0048394ea/go.mod h1:YPXdZ3FFwSQCACiQVGYsze9xRly6PDgPI13S6493LpY=
 github.com/sirupsen/logrus v1.7.0 h1:ShrD1U9pZB12TX0cVy0DtePoCH97K8EtX+mg7ZARUtM=
 github.com/sirupsen/logrus v1.7.0/go.mod h1:yWOB1SBYBC5VeMP7gHvWumXLIWorT60ONWic61uBYv0=
 github.com/stretchr/testify v1.2.2/go.mod h1:a8OnRcib4nhh0OaRAV+Yts87kKdq0PP7pXfy6kDkUVs=

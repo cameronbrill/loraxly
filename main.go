@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/csv"
 	"encoding/json"
 	"fmt"
@@ -10,6 +11,7 @@ import (
 	"os"
 
 	log "github.com/sirupsen/logrus"
+	gogpt "github.com/sashabaranov/go-gpt3"
 )
 
 type StockRes struct {
@@ -26,9 +28,25 @@ type StockRes struct {
 	} `json:"Time Series (5min)"`
 }
 
+type returnData struct {
+	Stocks map[string]struct{
+		Details struct {
+			Description string `json:"description"`
+			EnvironmentalSummary string `json:"environmental_summary"`
+		} `json:"details"`
+		TimeData map[string]struct{
+			ClosePrice float64 `json:"close_price"`
+			Volume float64 `json:"volume"`
+			EnvironmentalScore float64 `json:"environmental_score"`
+			RawSentiment float64 `json:"raw_sentiment"`
+		} `json:"time_data"`
+	} `json:"stocks"`
+}
+
 var (
 	STOCK_ENDPOINT="https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&outputsize=full&symbol=%s&interval=5min&apikey=%s"
 	STOCK_API_KEY=os.Getenv("ALPHA_KEY")
+	OPEN_AI_API_KEY=os.Getenv("OPEN_AI_KEY")
 	STOCK_LIST_FILE="stocks.csv"
 )
 
@@ -50,6 +68,7 @@ func main() {
 			}(tickers, stocks)
 		}
 	}(tickers, stocks)
+	openAIClient := gogpt.NewClient(OPEN_AI_API_KEY)
 	select {}
 }
 

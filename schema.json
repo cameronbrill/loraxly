@@ -7,7 +7,8 @@
       },
       "time_data": {
         "[timestamp]": {
-          "price": float,
+          "close_price": float,
+          "volume": float,
           "environmental_score": float,
           "raw_sentiment": float
         }
