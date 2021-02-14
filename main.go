@@ -96,6 +96,7 @@ func main() {
 					*stockRes,
 					*stockDetails,
 				}
+				stockTotal.Ticker = ticker
 				stocks <- stockTotal
 				log.Infof("got stock %s", ticker)
 				return
@@ -173,6 +174,7 @@ func main() {
 			rawURLSentiment := sentimentURLRes.Choices[0].Text
 			stockReturn.Stocks[stock.StockDetail.Ticker].Details.EnvironmentalSentiment = append(stockReturn.Stocks[stock.StockDetail.Ticker].Details.EnvironmentalSentiment, rawURLSentiment)
 			log.Infof("sentiment of article %s is %s", k, rawURLSentiment)
+			log.Infof("stock %s article %s sentiment %s", stock.StockDetail.Ticker, k, rawURLSentiment)
 		}
 		/*
 		for past 15 articles (search by stock.name+environmental impact):
