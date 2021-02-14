@@ -14,3 +14,8 @@
 # Dependency directories (remove the comment below to include it)
 # vendor/
 .idea/
+chromedriver
+chromedriver_mac64.zip
+geckodriver.log
+treehacks2021-64fdf-firebase-adminsdk-vp0jf-b909431bb5.json
+venv/
